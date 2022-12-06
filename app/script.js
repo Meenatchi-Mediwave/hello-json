@@ -15,9 +15,23 @@
 // ]
 
 var books = [
-  { name: "harry potter", author: "JK rowling", likes: [{}] },
-  { name: "A song of ice and fire", author: "George R R Martin", likes: [{}] },
+  {
+    id: 1670331233713,
+    name: "harry potter",
+    author: "JK rowling",
+    likes: [{}],
+  },
+  {
+    id: 1670331235417,
+    name: "A song of ice and fire",
+    author: "George R R Martin",
+    likes: [{}],
+  },
 ];
+
+function makeId() {
+  return new Date().getTime();
+}
 
 function addToBookContainer(bookhtml) {
   var container = document.querySelector("#books-container");
@@ -33,9 +47,11 @@ function makeBookHTML(book) {
   // <div class="border-margin">
   //         <h2>Harry Potter</h2>
   //         <p>JK Rowling</p>
+  //         <button>Remove book</button>
   //  </div>
   const div = document.createElement("div");
   div.setAttribute("class", "border-margin");
+  div.setAttribute("id", book.id);
 
   const h2 = document.createElement("h2");
   h2.innerHTML = book.name;
@@ -46,6 +62,18 @@ function makeBookHTML(book) {
   p.innerHTML = book.author;
 
   div.appendChild(p);
+
+  const button = document.createElement("button");
+  button.innerHTML = "Remove book";
+  div.appendChild(button);
+
+  // event listener for removing a book
+  button.addEventListener("click", function () {
+    // document.getElementById(book.id).remove();
+    var newBooks = books.filter((b) => b.id != book.id);
+    books = newBooks;
+    renderAllBooks();
+  });
 
   return div;
 }
@@ -76,6 +104,7 @@ function handleSubmit(e) {
   }
 
   var book = {
+    id: makeId(),
     name: name,
     author: author,
   };
