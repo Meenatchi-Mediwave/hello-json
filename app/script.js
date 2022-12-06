@@ -72,16 +72,16 @@ function makeBookHTML(book) {
     // document.getElementById(book.id).remove();
     var newBooks = books.filter((b) => b.id != book.id);
     books = newBooks;
-    renderAllBooks();
+    renderAllBooks(books);
   });
 
   return div;
 }
 
-function renderAllBooks() {
+function renderAllBooks(booksToRender) {
   clearBookContainer();
-  for (var i = 0; i < books.length; i++) {
-    var book = books[i];
+  for (var i = 0; i < booksToRender.length; i++) {
+    var book = booksToRender[i];
     var html = makeBookHTML(book);
     addToBookContainer(html);
   }
@@ -109,7 +109,7 @@ function handleSubmit(e) {
     author: author,
   };
   books.push(book);
-  renderAllBooks();
+  renderAllBooks(books);
   clearInputs();
 }
 
@@ -121,9 +121,21 @@ function hookForm() {
   form.addEventListener("submit", handleSubmit);
 }
 
+function handleSearch() {
+  var search = document.querySelector("#book-search-input");
+  search.addEventListener("keyup", function (e) {
+    var term = search.value;
+    var filteredBooks = books.filter((b) =>
+      b.name.toLowerCase().includes(term)
+    );
+    renderAllBooks(filteredBooks);
+  });
+}
+
 function main() {
-  renderAllBooks();
+  renderAllBooks(books);
   hookForm();
+  handleSearch();
 }
 
 // start
