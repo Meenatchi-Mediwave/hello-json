@@ -1,8 +1,12 @@
 h1 {
-    color: red;
+  color: red;
 }
 
 .border-margin {
-    border: 1px solid black;
-    margin-bottom: 10px
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.d-flex {
+  display: flex;
 }
